@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../../FullStackOpen/luennot/ && npm run build --prod && cp -r build ../../FullStackOpen_backend/luennot_backend/",
     "deploy": "git push heroku master",
-    "deploy:full": "npm run build:ui && git add -A && git commit -m uibuild && git push && npm run deploy",
+    "deploy:full": "npm run build:ui && git add -A && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail"
   },
   "author": "Henrik Viluksela",
