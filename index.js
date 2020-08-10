@@ -97,6 +97,7 @@ app.post('/api/notes', (req, res) => {
     console.log(note)
 
     notes = notes.concat(note)
+    
     res.json(note)
 })
 
