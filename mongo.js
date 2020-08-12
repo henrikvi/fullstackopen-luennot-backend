@@ -1,14 +1,13 @@
 const mongoose = require('mongoose')
 
-if (process.argv.length<3) {
+if (process.argv.length < 3) {
   console.log('give password as argument')
   process.exit(1)
 }
 
 const password = process.argv[2]
 
-const url =
-  `mongodb+srv://notemanager_admin:${password}@cluster0-41b81.mongodb.net/note-app?retryWrites=true&w=majority`
+const url = `mongodb+srv://notemanager_admin:${password}@cluster0-41b81.mongodb.net/note-app?retryWrites=true&w=majority`
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -20,7 +19,7 @@ const noteSchema = new mongoose.Schema({
 
 const Note = mongoose.model('Note', noteSchema)
 
-Note.find({}).then(result => {
+Note.find({important: false}).then(result => {
     result.forEach(note => {
       console.log(note)
     })
