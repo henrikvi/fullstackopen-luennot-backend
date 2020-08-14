@@ -3,6 +3,10 @@ GET http://localhost:3001/api/notes
 ###
 GET http://localhost:3001/api/notes/5ecfa936a7cf1fa3d692f61a
 ###
+// Malformatted id
+GET http://localhost:3001/api/notes/5a3b7c3c31d61cb9f8a0343
+###
+// Non-existing document
 GET http://localhost:3001/api/notes/NON-EXISTING
 ###
 DELETE http://localhost:3001/api/notes/5f33eb1ed14b0f62f0513bc5
