@@ -3,10 +3,10 @@ const express = require('express')
 const cors = require('cors')
 const Note = require('./models/note')
 
+const app = express()
 
 // Express middlewares etc.
 
-const app = express()
 
 const requestLogger = (request, response, next) => {
     console.log('HTTP request received:')
@@ -15,6 +15,16 @@ const requestLogger = (request, response, next) => {
     console.log('Body:  ', request.body)
     console.log('---')
     next()
+}
+
+const errorHandler = (err, req, res, next) => {
+    console.log(err)
+
+    if (err.name === 'CastError'){
+        return res.status(400).send({error: 'malformatted id'})
+    }
+
+    next(err)
 }
 
 const unknownEndpoint = (req, res) => {
@@ -44,8 +54,17 @@ app.get('/api/notes', (req, res) => {
 })
 
 // GET single note
-app.get('/api/notes/:id', (req, res) => {
-    Note.findById(req.params.id).then(note => res.json(note))
+app.get('/api/notes/:id', (req, res, next) => {
+    Note.findById(req.params.id)
+    .then(note => {
+        if (note) {
+            return res.json(note)
+        } else {
+            return res.status(404).end()
+        }
+    })
+    // transfer error handling to middleware
+    .catch(error => next(error))
 })
 
 // DELETE
@@ -81,6 +100,7 @@ app.post('/api/notes', (req, res) => {
 })
 
 app.use(unknownEndpoint)
+app.use(errorHandler)
 
 // Start server
 
