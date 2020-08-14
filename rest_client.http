@@ -1,7 +1,11 @@
 ###
 GET http://localhost:3001/api/notes
 ###
-DELETE http://localhost:3001/api/notes/4
+GET http://localhost:3001/api/notes/5ecfa936a7cf1fa3d692f61a
+###
+GET http://localhost:3001/api/notes/NON-EXISTING
+###
+DELETE http://localhost:3001/api/notes/5f33eb1ed14b0f62f0513bc5
 ###
 POST http://localhost:3001/api/notes
 Content-Type: application/json
