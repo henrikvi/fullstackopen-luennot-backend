@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const Note = require('./models/note')
+const { response } = require('express')
 
 const app = express()
 
@@ -47,10 +48,13 @@ app.get('/', (req, res) => {
 
 // GET all notes
 app.get('/api/notes', (req, res) => {
-    Note.find({}).then(notes => {
+    Note.find({})
+    .then(notes => {
         console.log('All notes:', notes)
         res.json(notes)
     })
+    // transfer error handling to middleware
+    .catch(err => next(err))
 })
 
 // GET single note
@@ -63,17 +67,14 @@ app.get('/api/notes/:id', (req, res, next) => {
             return res.status(404).end()
         }
     })
-    // transfer error handling to middleware
-    .catch(error => next(error))
+    .catch(err => next(err))
 })
 
 // DELETE
-app.delete('/api/notes/:id', (req, res) => {
-    const id = Number(req.params.id)
-    notes = notes.filter(note => note.id !== id)
-
-    console.log(`DELETE: notes/${id}`)
-    res.status(204).end()
+app.delete('/api/notes/:id', (req, res, next) => {
+    Note.findByIdAndRemove(req.params.id)
+    .then(result => res.status(204).end())
+    .catch(err => next(err))
 })
 
 // POST
