@@ -2,7 +2,6 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const Note = require('./models/note')
-const { response } = require('express')
 
 const app = express()
 
@@ -47,7 +46,7 @@ app.get('/', (req, res) => {
 })
 
 // GET all notes
-app.get('/api/notes', (req, res) => {
+app.get('/api/notes', (req, res, next) => {
     Note.find({})
     .then(notes => {
         console.log('All notes:', notes)
