@@ -45,7 +45,6 @@ app.get('/', (req, res) => {
     res.send('<h1>Hello world</h1>')
 })
 
-// GET all notes
 app.get('/api/notes', (req, res, next) => {
     Note.find({})
     .then(notes => {
@@ -56,7 +55,6 @@ app.get('/api/notes', (req, res, next) => {
     .catch(err => next(err))
 })
 
-// GET single note
 app.get('/api/notes/:id', (req, res, next) => {
     Note.findById(req.params.id)
     .then(note => {
@@ -69,14 +67,12 @@ app.get('/api/notes/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-// DELETE
 app.delete('/api/notes/:id', (req, res, next) => {
     Note.findByIdAndRemove(req.params.id)
     .then(result => res.status(204).end())
     .catch(err => next(err))
 })
 
-// POST
 app.post('/api/notes', (req, res) => {
 
     const body = req.body
@@ -97,6 +93,19 @@ app.post('/api/notes', (req, res) => {
         console.log('Note saved.')
         res.json(savedNote)
     })
+})
+
+app.put('/api/notes/:id', (req, res, next) => {
+    const body = req.body
+
+    const newNote = {
+        content: body.content,
+        important: body.important
+    }
+
+    Note.findByIdAndUpdate(req.params.id, newNote, {new: true})
+    .then(updatedNote => res.json(updatedNote))
+    .catch(err => next(err))
 })
 
 app.use(unknownEndpoint)
