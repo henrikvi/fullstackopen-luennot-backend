@@ -18,3 +18,11 @@ Content-Type: application/json
     "content":"Sovellus tulostaa lähetetyn vastaanottamansa datan terminaaliin",
     "important": true
 }
+###
+PUT http://localhost:3001/api/notes/5ecfa936a7cf1fa3d692f61a
+Content-Type: application/json
+
+{
+    "content":"HTML is Easy",
+    "important": true
+}
